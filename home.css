@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+}
+
+header {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 30px;
+    padding: 0 50px;
+    box-shadow: 0 2px 3px #0003;
+}
+
+header span {
+    cursor: pointer;
+
+}
+
+#productsList {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px 20px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.cardProduct {
+    width: 250px;
+    height: 260px;
+    border: 1px solid black;
+    border-radius: 7px;
+    overflow: hidden;
+    text-transform: capitalize;
+}
+
+.cardData {
+    padding: 5px;
+}
+
+.cardProduct img {
+    width: 100%;
+    height: 150px;
+    /* background: red; */
+    object-fit: cover;
+}
+
+.cardProduct h3 {
+    color: red;
+    text-align: right;
+}
+
+.cardProduct button {
+    display: inline-block;
+    margin: 0 0 0 auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.cardProduct button:hover {
+    transition: 300ms;
+    transform: scale(1.1);
+    opacity: 0.7;
+}

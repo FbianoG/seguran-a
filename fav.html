@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang='pt-br'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='home.css'>
+    <!-- <script src='app.js' defer></script> -->
+    <title>Favoritos</title>
+</head>
+
+<body>
+    <header>
+        <a href="home.html">Início</a>
+        <span>Minhas Compras</span>
+        <a href="fav.html">Lista de Desejos</a>
+        <span>Configurações</span>
+    </header>
+
+    <h1>Lista de Desejos</h1>
+
+    <section>
+        <h2 class="title">Produtos</h2>
+        <div id="productsList">
+        </div>
+
+        </div>
+    </section>
+
+</body>
+
+<script>
+    const productsList = document.querySelector('#productsList')
+    const token = localStorage.getItem("Token")
+
+    async function getUser() {
+        const response = await fetch(`http://localhost:3000/getUser`, {
+            method: "POST",
+            body: JSON.stringify({ token }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const data = await response.json()
+        console.log(data);
+        loadFavProducts(data.user.fav)
+    }
+
+    async function loadFavProducts(e) {
+        e.length == 0 ? productsList.innerHTML = `<h3>Nenhum produto adicionado à lista de desejos</h3>` : productsList.innerHTML = ``
+        const response = await fetch(`./products.json`)
+        const data = await response.json()
+        const produtosFav = data.Products.filter(element => e.includes(element.id))
+        console.log(produtosFav);
+        produtosFav.forEach(element => {
+            const newCardProduct = document.createElement("div")
+            newCardProduct.classList = "cardProduct"
+            newCardProduct.innerHTML = cardProductHTML(element)
+            productsList.appendChild(newCardProduct)
+            newCardProduct.querySelector('#favBtn').addEventListener('click', deleteProduct)
+        })
+    }
+
+    function cardProductHTML(e) {
+        const HTML = `
+            <img src="${e.src}" alt="">
+            <div class="cardData">
+                <span style="display: none;">${e.id}</span>
+                <h4>${e.name}</h4>
+                <p>${e.branche}</p>
+                <h3>R$${e.price}</h3>
+                <button id="favBtn">🗑️</button>
+                <button>Comprar</button>
+            </div>
+        `
+        return HTML
+    }
+
+    async function deleteProduct() {
+        const productId = this.parentNode.querySelectorAll("span")[0].textContent // pega o valor do id do DOM
+        const response = await fetch(`http://localhost:3000/deleteProduct`, {
+            method: "POST",
+            body: JSON.stringify({ token, productId }),
+            headers: {'Content-Type': 'application/json'}
+        })
+        const data = await response.json()
+        console.log(data)
+        getUser()
+    }
+
+    getUser()
+
+</script>
+
+</html>

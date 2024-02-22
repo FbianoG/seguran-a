@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang='pt-br'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='home.css'>
+    <!-- <script src='app.js' defer></script> -->
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <span>Minhas Compras</span>
+        <a href="fav.html">Lista de Desejos</a>
+        <span>Configurações</span>
+    </header>
+    <h1>Olá, Mundo !</h1>
+    <section></section>
+    <section>
+        <h2 class="title">Produtos</h2>
+        <div id="productsList">
+            <div class="cardProduct">
+                <img src="" alt="">
+                <div class="cardData">
+                    <h4>Teclado Mecânico H110</h4>
+                    <p>Corssair</p>
+                    <h3>219,90</h3>
+                    <button>Favoritar</button>
+                    <button>Comprar</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+
+<script>
+    const token = localStorage.getItem("Token")
+    const productsList = document.querySelector('#productsList')
+    let Products
+
+    async function getUser() {
+        console.log(token);
+        const response = await fetch(`http://localhost:3000/getUser`, {
+            method: "POST",
+            body: JSON.stringify({ token }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const data = await response.json()
+        console.log(data);
+        loadData(data)
+
+        let products = await fetch(`./products.json`)
+        let prod = await products.json()
+        loadProducts()
+    }
+
+    function loadData(e) {
+
+        document.querySelectorAll('h1')[0].textContent = `Bem vindo, ${e.user.username}`
+    }
+
+    async function loadProducts() {
+        const response = await fetch(`./products.json`)
+        const data = await response.json()
+        Products = data.Products
+        Products.forEach(element => {
+            const newCardProduct = document.createElement("div")
+            newCardProduct.classList = "cardProduct"
+            newCardProduct.innerHTML = cardProductHTML(element)
+            productsList.appendChild(newCardProduct)
+            newCardProduct.querySelector('#favBtn').addEventListener('click', includeProduct)
+        })
+    }
+
+    function cardProductHTML(e) {
+        const HTML = `
+            <img src="${e.src}" alt="">
+            <div class="cardData">
+                <span style="display: none;">${e.id}</span>
+                <h4>${e.name}</h4>
+                <p>${e.branche}</p>
+                <h3>R$${e.price}</h3>
+                <button id="favBtn">🛒</button>
+                <button>Comprar</button>
+            </div>
+        `
+        return HTML
+    }
+
+
+    // document.querySelector('#favBtn').addEventListener('click', includeProduct)
+
+    async function includeProduct() {
+        const productId = this.parentNode.querySelectorAll("span")[0].textContent
+        // console.log(id)
+        const response = await fetch(`http://localhost:3000/includeProduct`, {
+            method: "POST",
+            body: JSON.stringify({ token, productId }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json()
+        console.log(data)
+    }
+
+    getUser()
+
+</script>
+
+</html>

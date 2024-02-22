@@ -1,0 +1,28 @@
+{
+    "Products": [
+        {
+            "id": "1",
+            "name": "mouse cobra-2",
+            "branche": "redragon",
+            "price": 109.99,
+            "type": "perifericos",
+            "src": "https://a-static.mlcdn.com.br/450x450/mouse-gamer-redragon-king-cobra-2-rgb-chroma-24000dpi-sensor-optico-usb-preto-m711-fps-1/kabum/185027/37cb44aaa84f6a323714fb1f07265645.jpeg"
+        },
+        {
+            "id": "2",
+            "name": "placa de vídeo - gtx 4060",
+            "branche": "gigabyte",
+            "price": 1889.99,
+            "type": "hardware",
+            "src": "https://img.terabyteshop.com.br/archive/225793457/HTML%20GeForce%20RTX%E2%84%A2%204060%20WINDFORCE%20OC%208G-01.png"
+        },
+        {
+            "id": "3",
+            "name": "alexa",
+            "branche": "amazon",
+            "price": 380,
+            "type": "outros",
+            "src": "https://i.zst.com.br/thumbs/12/c/f/-1062741168.jpg"
+        }
+    ]
+}
